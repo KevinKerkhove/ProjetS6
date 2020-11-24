@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Etudiant;
+use App\Form\Type\ChoixType;
+use App\Form\Type\CiviliteType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,7 +16,7 @@ class EtudiantType extends AbstractType
         $builder
             ->add('nom')
             ->add('prenom')
-            ->add('civilite')
+            ->add('civilite', CiviliteType::class)
             ->add('adresse1')
             ->add('adresse2')
             ->add('adresse3')
@@ -26,7 +28,7 @@ class EtudiantType extends AbstractType
             ->add('email')
             ->add('emailResponsable1')
             ->add('emailResponsable2')
-            ->add('choix')
+            ->add('choix', ChoixType::class)
         ;
     }
 
