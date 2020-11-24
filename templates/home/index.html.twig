@@ -10,11 +10,10 @@
 
 <div class="example-wrapper">
     <h1>Gestion des Etudiants !</h1>
-
-    Par Louis, Kevin et Yanis
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/gestion-des-etudiants/src/Controller/HomeController.php'|file_link(0) }}">src/Controller/HomeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/gestion-des-etudiants/templates/home/index.html.twig'|file_link(0) }}">templates/home/index.html.twig</a></code></li>
-    </ul>
+    <br>
+    <a type="button" class="btn btn-primary">importer fichier</a>
+    <hr>
+    <h4>Inscrire un Étudiant manuellement</h4>
+    <a type "button" class="btn btn-primary" href="{{ path('new_etudiant') }}">Inscription</a>
 </div>
 {% endblock %}
