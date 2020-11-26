@@ -210,7 +210,7 @@ class Etudiant
         return $this->telephoneMobile;
     }
 
-    public function setTelephoneMobile(string $telephoneMobile): self
+    public function setTelephoneMobile(?string $telephoneMobile): self
     {
         $this->telephoneMobile = $telephoneMobile;
 

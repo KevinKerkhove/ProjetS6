@@ -31,7 +31,31 @@ class XlsImportController extends AbstractController
         $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
         $spreadsheet = $reader->load($inputFileName);
         $data = $this->createDataFromSpreadSheet($spreadsheet);
-        dd($data);
+        foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
+        {  
+            
+            $etudiant = new Etudiant();
+            $etudiant->setChoix($convoquer[0]);
+            $etudiant->setNom($convoquer[1]);
+            $etudiant->setPrenom($convoquer[2]);
+            $etudiant->setCivilite($convoquer[3]);
+            $etudiant->setAdresse1($convoquer[4]);
+            $etudiant->setAdresse2($convoquer[5]);
+            $etudiant->setAdresse3($convoquer[6]);
+            $etudiant->setCodePostal($convoquer[7]);
+            $etudiant->setCommune($convoquer[8]);
+            $etudiant->setPays($convoquer[9]);
+            $etudiant->setTelephone($convoquer[10]);
+            $etudiant->setTelephoneMobile($convoquer[11]);
+            $etudiant->setEmail($convoquer[12]);
+            $etudiant->setEmailResponsable1($convoquer[13]);
+            $etudiant->setEmailResponsable2($convoquer[14]);
+           
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($etudiant);
+            $entityManager->flush();
+        }
+        
         return $this->render('xls_import/index.html.twig', [
             'controller_name' => 'XlsImportController',
             'data' => $data,
