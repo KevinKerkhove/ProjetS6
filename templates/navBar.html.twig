@@ -11,10 +11,6 @@
             </li>
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link">importer fichier</a>
-                </li>
-
-                <li class="nav-item">
                     <a class="nav-link" href="{{ path('etudiant_new') }}">Creation d'un etudiant</a>
                 </li>
 
