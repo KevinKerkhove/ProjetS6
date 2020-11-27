@@ -3,10 +3,10 @@
 {% block title %}Etudiant index{% endblock %}
 
 {% block body %}
-    <h1>Etudiant index</h1>
-
+    <h1>Liste des Étudiants</h1>
+<div class="table-responsive">
     <table class="table">
-        <thead>
+        <thead class="thead-light">
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
@@ -58,6 +58,6 @@
         {% endfor %}
         </tbody>
     </table>
-
+</div>
     <a href="{{ path('etudiant_new') }}">Create new</a>
 {% endblock %}
