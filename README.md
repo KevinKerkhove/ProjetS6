@@ -1,7 +1,7 @@
 Projet tutoré Gestion d'étudiants
 
 INSTALATION
-----------------------
+=====================
 
 1. Installation des dépendances : Composer install
 2. Modifier le .env avec vos paramètres de base de données
