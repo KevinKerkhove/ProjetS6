@@ -1,4 +1,5 @@
 Projet tutoré Gestion d'étudiants
+Par Louis, Keevin et ~~Yanis~~
 
 INSTALATION
 =====================
