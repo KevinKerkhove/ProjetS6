@@ -2,12 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Fichier;
 use App\Entity\Etudiant;
+use App\Form\FichierType;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Symfony\Component\HttpFoundation\Response;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class XlsImportController extends AbstractController
@@ -15,7 +19,7 @@ class XlsImportController extends AbstractController
     /**
      * @Route("/xls/import", name="xls_import")
      */
-    public function index(): Response
+    public function index(Request $request, SluggerInterface $slugger): Response
     {
         /* Ecrire un fichier xls
             $spreadsheet = new SpreadSheet();
@@ -26,40 +30,68 @@ class XlsImportController extends AbstractController
             $writer->save('Yo.xls');
         */
 
-        $inputFileName = 'DUT-Informatique-2019-06-12.xls';
+        $fichier = new Fichier();
+        $form = $this->createForm(FichierType::class, $fichier);
+        $form->handleRequest($request);
 
-        $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-        $spreadsheet = $reader->load($inputFileName);
-        $data = $this->createDataFromSpreadSheet($spreadsheet);
-        foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
-        {  
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $fichierEtudiant */
+            $fichierEtudiant = $form->get('fichier')->getData();
+
+            if ($fichierEtudiant) {
+                $originalFilename = pathinfo($fichierEtudiant->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'.'.$fichierEtudiant->guessExtension();
+
+                try {
+                    $fichierEtudiant->move(
+                        $this->getParameter('fichiers_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+      
+                $fichier->setFilename($newFilename);
+
+                $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
+                $spreadsheet = $reader->load($newFilename);
+                $data = $this->createDataFromSpreadSheet($spreadsheet);
+
+                foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
+                {  
             
-            $etudiant = new Etudiant();
-            $etudiant->setChoix($convoquer[0]);
-            $etudiant->setNom($convoquer[1]);
-            $etudiant->setPrenom($convoquer[2]);
-            $etudiant->setCivilite($convoquer[3]);
-            $etudiant->setAdresse1($convoquer[4]);
-            $etudiant->setAdresse2($convoquer[5]);
-            $etudiant->setAdresse3($convoquer[6]);
-            $etudiant->setCodePostal($convoquer[7]);
-            $etudiant->setCommune($convoquer[8]);
-            $etudiant->setPays($convoquer[9]);
-            $etudiant->setTelephone($convoquer[10]);
-            $etudiant->setTelephoneMobile($convoquer[11]);
-            $etudiant->setEmail($convoquer[12]);
-            $etudiant->setEmailResponsable1($convoquer[13]);
-            $etudiant->setEmailResponsable2($convoquer[14]);
-           
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($etudiant);
-            $entityManager->flush();
+                    $etudiant = new Etudiant();
+                    $etudiant->setChoix($convoquer[0]);
+                    $etudiant->setNom($convoquer[1]);
+                    $etudiant->setPrenom($convoquer[2]);
+                    $etudiant->setCivilite($convoquer[3]);
+                    $etudiant->setAdresse1($convoquer[4]);
+                    $etudiant->setAdresse2($convoquer[5]);
+                    $etudiant->setAdresse3($convoquer[6]);
+                    $etudiant->setCodePostal($convoquer[7]);
+                    $etudiant->setCommune($convoquer[8]);
+                    $etudiant->setPays($convoquer[9]);
+                    $etudiant->setTelephone($convoquer[10]);
+                    $etudiant->setTelephoneMobile($convoquer[11]);
+                    $etudiant->setEmail($convoquer[12]);
+                    $etudiant->setEmailResponsable1($convoquer[13]);
+                    $etudiant->setEmailResponsable2($convoquer[14]);
+                
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($etudiant);
+                    $entityManager->flush();
+
+                }                
+            }
+            return $this->redirectToRoute('home');
+
         }
-        
         return $this->render('xls_import/index.html.twig', [
-            'controller_name' => 'XlsImportController',
-            'data' => $data,
+            'form' => $form->createView(),
         ]);
+        
     }
 
     public function createDataFromSpreadSheet($spreadsheet)
