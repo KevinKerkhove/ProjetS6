@@ -7,27 +7,21 @@
 
     <table class="table">
         <thead>
-        <tr>
-            <th>Id</th>
-            <th>Username</th>
-            <th>Roles</th>
-            <th>Health</th>
-            <th>Enabled</th>
-            {#                <th>CreatedAt</th>
-                <th>Password</th>#}
-            <th>actions</th>
-        </tr>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>actions</th>
+            </tr>
         </thead>
         <tbody>
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
-                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
-                <td>{{ user.health }}</td>
-                <td>{{ user.enabled ? 'Yes' : 'No' }}</td>
-                {#<td>{{ user.createdAt ? user.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ user.password }}</td>#}
+                <td>{{ user.password }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
@@ -35,7 +29,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="8">no records found</td>
+                <td colspan="5">no records found</td>
             </tr>
         {% endfor %}
         </tbody>
