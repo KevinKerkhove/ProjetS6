@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Fichier;
 use App\Entity\Etudiant;
+
 use App\Form\FichierType;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
 
@@ -12,12 +13,14 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class XlsImportController extends AbstractController
 {
     /**
-     * @Route("/xls/import", name="xls_import")
+     * @Route("/xls_import", name="xls_import")
      */
     public function index(Request $request, SluggerInterface $slugger): Response
     {
@@ -52,11 +55,14 @@ class XlsImportController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-      
+                
                 $fichier->setFilename($newFilename);
+                
+                $inputFilePath = $this->getParameter('fichiers_directory');
+                $filePathAndName = $inputFilePath.'/'.$newFilename;
 
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                $spreadsheet = $reader->load($newFilename);
+                $spreadsheet = $reader->load($filePathAndName);
                 $data = $this->createDataFromSpreadSheet($spreadsheet);
 
                 foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)

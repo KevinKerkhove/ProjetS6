@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Fichier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
@@ -18,5 +19,12 @@ class FichierType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ]);
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => Fichier::class,
+        ]);
     }
 }
