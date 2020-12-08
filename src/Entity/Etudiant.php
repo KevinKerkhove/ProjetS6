@@ -92,6 +92,11 @@ class Etudiant
      */
     private $choix;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
+     */
+    private $user;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -273,6 +278,18 @@ class Etudiant
     public function setChoix(string $choix): self
     {
         $this->choix = $choix;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

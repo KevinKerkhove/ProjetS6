@@ -13,13 +13,8 @@
                 <th>Id</th>
                 <th>Nom</th>
                 <th>Prenom</th>
-                <th>Adresse</th>
-                <th>CodePostal</th>
-                <th>Commune</th>
-                <th>Pays</th>
                 <th>TelephoneMobile</th>
                 <th>Email</th>
-                <th>Choix</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -29,16 +24,16 @@
                 <td>{{ etudiant.id }}</td>
                 <td>{{ etudiant.nom }}</td>
                 <td>{{ etudiant.prenom }}</td>
-                <td>{{ etudiant.adresse1 }}</td>
-                <td>{{ etudiant.codePostal }}</td>
-                <td>{{ etudiant.commune }}</td>
-                <td>{{ etudiant.pays }}</td>
                 <td>{{ etudiant.telephoneMobile }}</td>
                 <td>{{ etudiant.email }}</td>
-                <td>{{ etudiant.choix }}</td>
                 <td>
                     <a type="button" class="btn btn-primary" href="{{ path('etudiant_show', {'id': etudiant.id}) }}">show</a>
                     <a type="button" class="btn btn-primary" href="{{ path('etudiant_edit', {'id': etudiant.id}) }}">edit</a>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if(etudiant.user == null) %}
+                            <a type="button" class="btn btn-primary" href="{{ path('user_new', {'id': etudiant.id}) }}">Créer compte Utilisateur</a>
+                        {% endif %}
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
