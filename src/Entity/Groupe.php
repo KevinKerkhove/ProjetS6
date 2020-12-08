@@ -31,18 +31,14 @@ class Groupe
     private $promotion;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Groupe::class, inversedBy="sous_groupes")
+     * @ORM\OneToMany(targetEntity=SousGroupe::class, mappedBy="groupe")
      */
-    private $groupe;
+    private $sousGroupes;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Groupe::class, mappedBy="groupe")
-     */
-    private $sous_groupes;
 
     public function __construct()
     {
-        $this->sous_groupes = new ArrayCollection();
+        $this->sousGroupes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,42 +70,30 @@ class Groupe
         return $this;
     }
 
-    public function getGroupe(): ?self
-    {
-        return $this->groupe;
-    }
-
-    public function setGroupe(?self $groupe): self
-    {
-        $this->groupe = $groupe;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|self[]
+     * @return Collection|SousGroupe[]
      */
     public function getSousGroupes(): Collection
     {
-        return $this->sous_groupes;
+        return $this->sousGroupes;
     }
 
-    public function addGroupe(self $groupe): self
+    public function addSousGroupe(SousGroupe $sousGroupe): self
     {
-        if (!$this->sous_groupes->contains($groupe)) {
-            $this->sous_groupes[] = $groupe;
-            $groupe->setGroupe($this);
+        if (!$this->sousGroupes->contains($sousGroupe)) {
+            $this->sousGroupes[] = $sousGroupe;
+            $sousGroupe->setGroupe($this);
         }
 
         return $this;
     }
 
-    public function removeGroupe(self $groupe): self
+    public function removeSousGroupe(SousGroupe $sousGroupe): self
     {
-        if ($this->sous_groupes->removeElement($groupe)) {
+        if ($this->sousGroupes->removeElement($sousGroupe)) {
             // set the owning side to null (unless already changed)
-            if ($groupe->getGroupe() === $this) {
-                $groupe->setGroupe(null);
+            if ($sousGroupe->getGroupe() === $this) {
+                $sousGroupe->setGroupe(null);
             }
         }
 

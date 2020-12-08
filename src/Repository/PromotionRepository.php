@@ -20,7 +20,7 @@ class PromotionRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Promotion[] Returns an array of Promotion objects
+    //  * @return PromotionFixtures[] Returns an array of PromotionFixtures objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class PromotionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Promotion
+    public function findOneBySomeField($value): ?PromotionFixtures
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

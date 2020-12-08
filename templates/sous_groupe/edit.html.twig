@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit SousGroupe{% endblock %}
+
+{% block body %}
+    <h1>Edit SousGroupe</h1>
+
+    {{ include('sous_groupe/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('sous_groupe_index') }}">back to list</a>
+
+    {{ include('sous_groupe/_delete_form.html.twig') }}
+{% endblock %}

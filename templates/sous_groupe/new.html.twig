@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New SousGroupe{% endblock %}
+
+{% block body %}
+    <h1>Create new SousGroupe</h1>
+
+    {{ include('sous_groupe/_form.html.twig') }}
+
+    <a href="{{ path('sous_groupe_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SousGroupe{% endblock %}
+
+{% block body %}
+    <h1>SousGroupe</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ sous_groupe.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ sous_groupe.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('sous_groupe_index') }}">back to list</a>
+
+    <a href="{{ path('sous_groupe_edit', {'id': sous_groupe.id}) }}">edit</a>
+
+    {{ include('sous_groupe/_delete_form.html.twig') }}
+{% endblock %}
