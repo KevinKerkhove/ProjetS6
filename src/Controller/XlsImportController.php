@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Fichier;
 use App\Entity\Etudiant;
-
+use App\Repository\EtudiantRepository;
 use App\Form\FichierType;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,39 +23,30 @@ class XlsImportController extends AbstractController
      */
     public function index(Request $request, SluggerInterface $slugger): Response
     {
-        /* Ecrire un fichier xls
-            $spreadsheet = new SpreadSheet();
-            $sheet = $spreadsheet->getActiveSheet();
-            $sheet->setCellValue('A1', 'YO!');
-
-            $writer = new Xls($spreadsheet);
-            $writer->save('Yo.xls');
-        */
+        $swap = 0; //variable au pif pour le flash plus tard
 
         $fichier = new Fichier();
         $form = $this->createForm(FichierType::class, $fichier);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
             /** @var UploadedFile $fichierEtudiant */
             $fichierEtudiant = $form->get('fichier')->getData();
 
-            if ($fichierEtudiant) {
+            if ($fichierEtudiant) 
+            {
                 $originalFilename = pathinfo($fichierEtudiant->getClientOriginalName(), PATHINFO_FILENAME);
-
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'.'.$fichierEtudiant->guessExtension();
-
-                
                 $fichier->setFilename($newFilename);
 
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
                 $spreadsheet = $reader->load($fichierEtudiant);
                 $data = $this->createDataFromSpreadSheet($spreadsheet);
-
-                foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
+                
+                foreach ($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
                 {  
-            
                     $etudiant = new Etudiant();
                     $etudiant->setChoix($convoquer[0]);
                     $etudiant->setNom($convoquer[1]);
@@ -74,48 +64,70 @@ class XlsImportController extends AbstractController
                     $etudiant->setEmailResponsable1($convoquer[13]);
                     $etudiant->setEmailResponsable2($convoquer[14]);
                 
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($etudiant);
-                    $entityManager->flush();
+                    $emailRechercher = $this->getDoctrine()->getRepository(Etudiant::class)
+                        ->findOneBy(['email' => $etudiant->getEmail()]);
+                    
+                    if ($emailRechercher === null)
+                    {
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($etudiant);
+                        $entityManager->flush();
+                    }else if ($emailRechercher !==null)
+                    {
+                        $swap = 666;
+                    }
+                }
 
-                }                
+                if ($swap === 666) 
+                {
+                    $this->addFlash(
+                        'warning',
+                        'Certaines données n\'ont pas été importé car déjà présentes'
+                    );    
+                }               
             }
-            return $this->redirectToRoute('home');
 
+            $this->addFlash(
+                'success',
+                'Fin d\'importation des donnnées'
+            );
+
+            return $this->redirectToRoute('home');
         }
+
         return $this->render('xls_import/index.html.twig', [
             'form' => $form->createView(),
         ]);
-        
     }
 
     public function createDataFromSpreadSheet($spreadsheet)
     {
         $data = [];
-        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) {
+        foreach ($spreadsheet->getWorksheetIterator() as $worksheet) 
+        {
             $worksheetTitle = $worksheet->getTitle();
             $data[$worksheetTitle] = [
                 'columnNames' => [],
                 'columnValues' => [],
             ];
             
-            foreach ($worksheet->getRowIterator() as $row) {
+            foreach ($worksheet->getRowIterator() as $row) 
+            {
                 $rowIndex = $row->getRowIndex();
-                if ($rowIndex > 2) {
+                if ($rowIndex > 2)
+                {
                     $data[$worksheetTitle]['columnValues'][$rowIndex] = [];
                 }
                 $cellIterator = $row->getCellIterator();
-                $cellIterator->setIterateOnlyExistingCells(false); // Loop over all cells, even if it is not set
-                foreach ($cellIterator as $cell) {
-                    if ($rowIndex === 1) {
+                $cellIterator->setIterateOnlyExistingCells(false);
+                foreach ($cellIterator as $cell) 
+                {
+                    if ($rowIndex === 1) 
                         $data[$worksheetTitle]['columnNames'][] = $cell->getCalculatedValue();
-                    }
-                    if ($rowIndex > 1) {
+                    if ($rowIndex > 1) 
                         $data[$worksheetTitle]['columnValues'][$rowIndex][] = $cell->getCalculatedValue();
-                    }
                 }
             }
-           
         }        
         return $data;
     }
