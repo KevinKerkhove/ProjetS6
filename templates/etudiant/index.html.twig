@@ -5,7 +5,8 @@
 {% block body %}
     <h1>Liste des Étudiants</h1>
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('etudiant_new') }}">Create new</a>
+        <a type="button" class="btn btn-outline-primary" href="{{ path('etudiant_new') }}">Créer un étudiant</a>
+        <hr>
     {% endif %}
     <table class="table table-sm table-hover">
         <thead class="thead-light">
