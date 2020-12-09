@@ -9,11 +9,15 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Gestion des Etudiants !</h1>
+    <h1>Bienvenue sur l'application de Gestion des Etudiants !</h1>
     <br>
-    {% if is_granted('ROLE_ADMIN') %}
-    <a type="button" class="btn btn-primary" href="{{ path('xls_import') }}">Fichier de parcoursup</a>
+
+    {% if ((is_granted('ROLE_USER'))) %}
+        Vous déconnecter:
+            <a href="{{ path('app_logout') }}">logout</a>
+    {% else %}
+        Vous n'êtes pas Connecter ? Connectez vous:
+            <a href="{{ path('app_login') }}">login</a>
     {% endif %}
-    <hr>
 </div>
 {% endblock %}

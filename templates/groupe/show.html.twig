@@ -15,6 +15,37 @@
                 <th>Nom</th>
                 <td>{{ groupe.nom }}</td>
             </tr>
+            <tr>
+                <th>Promotion</th>
+                <td>{{ groupe.promotion.nom }} - {{ groupe.promotion.annees ? groupe.promotion.annees|date('Y') : ''}}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <h2>Sous Groupes</h2>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nom</th>
+            <th>actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for sous_groupe in sous_groupes %}
+            <tr>
+                <td>{{ sous_groupe.id }}</td>
+                <td>{{ sous_groupe.nom }}</td>
+                <td>
+                    <a href="{{ path('sous_groupe_show', {'id': sous_groupe.id}) }}">show</a>
+                    <a href="{{ path('sous_groupe_edit', {'id': sous_groupe.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 

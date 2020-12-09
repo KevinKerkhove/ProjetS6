@@ -10,19 +10,17 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('etudiant_new') }}">Creation d'un etudiant</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('xls_import') }}">Importer Fichier d'étudiants</a>
+                </li>
+
 
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('etudiant_index') }}">Liste des étudiants</a>
                 </li>
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('groupe_index') }}">Groupes</a>
-            </li>
-            <li class="nav-item">
                     <a class="nav-link" href="{{ path('promotion_index') }}">Promotions</a>
-            </li>
-            <li class="nav-item">
-                    <a class="nav-link" href="{{ path('sous_groupe_index') }}">Sous groupes</a>
             </li>
         </ul>
     </div>

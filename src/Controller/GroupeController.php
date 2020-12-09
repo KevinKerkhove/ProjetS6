@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Groupe;
 use App\Form\GroupeType;
 use App\Repository\GroupeRepository;
+use App\Repository\SousGroupeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,10 +52,12 @@ class GroupeController extends AbstractController
     /**
      * @Route("/{id}", name="groupe_show", methods={"GET"})
      */
-    public function show(Groupe $groupe): Response
+    public function show(Groupe $groupe, SousGroupeRepository $sousGroupeRepository): Response
     {
+        $sous_groupes = $sousGroupeRepository->findBy(['groupe'=>$groupe]);
         return $this->render('groupe/show.html.twig', [
             'groupe' => $groupe,
+            'sous_groupes' => $sous_groupes,
         ]);
     }
 

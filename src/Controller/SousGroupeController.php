@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\SousGroupe;
 use App\Form\SousGroupeType;
+use App\Repository\PromotionRepository;
 use App\Repository\SousGroupeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,10 +52,12 @@ class SousGroupeController extends AbstractController
     /**
      * @Route("/{id}", name="sous_groupe_show", methods={"GET"})
      */
-    public function show(SousGroupe $sousGroupe): Response
+    public function show(SousGroupe $sousGroupe, PromotionRepository $promotionRepository): Response
     {
+        $promotion = $sousGroupe->getGroupe()->getPromotion();
         return $this->render('sous_groupe/show.html.twig', [
             'sous_groupe' => $sousGroupe,
+            'promotion' => $promotion,
         ]);
     }
 

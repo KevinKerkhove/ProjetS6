@@ -15,6 +15,17 @@
                 <th>Nom</th>
                 <td>{{ sous_groupe.nom }}</td>
             </tr>
+            <tr>
+                <th>Promotion</th>
+                <td>{{ promotion.nom}} - {{ promotion.annees ? promotion.annees|date('Y') : ''}}</td>
+                <td><a href="{{ path('promotion_show', {'id': promotion.id}) }}">show</a></td>
+            </tr>
+            <tr>
+                <th>Groupe</th>
+                <td>{{ sous_groupe.groupe.nom }}</td>
+                <td><a href="{{ path('groupe_show', {'id': sous_groupe.groupe.id}) }}">show</a></td>
+            </tr>
+
         </tbody>
     </table>
 
