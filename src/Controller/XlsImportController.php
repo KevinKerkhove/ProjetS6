@@ -4,10 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Fichier;
 use App\Entity\Etudiant;
-
+use App\Repository\EtudiantRepository;
 use App\Form\FichierType;
 use PhpOffice\PhpSpreadsheet\Reader\Xls;
-
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -53,6 +52,8 @@ class XlsImportController extends AbstractController
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
                 $spreadsheet = $reader->load($fichierEtudiant);
                 $data = $this->createDataFromSpreadSheet($spreadsheet);
+                
+               
 
                 foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
                 {  
@@ -74,10 +75,13 @@ class XlsImportController extends AbstractController
                     $etudiant->setEmailResponsable1($convoquer[13]);
                     $etudiant->setEmailResponsable2($convoquer[14]);
                 
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($etudiant);
-                    $entityManager->flush();
-
+                    $emailRechercher = $this->getDoctrine()->getRepository(Etudiant::class)->findOneBy(['email' => $etudiant->getEmail()]);
+                    
+                    if($emailRechercher === null){
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($etudiant);
+                        $entityManager->flush();
+                    }
                 }                
             }
             return $this->redirectToRoute('home');
