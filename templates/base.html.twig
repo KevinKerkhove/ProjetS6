@@ -14,6 +14,16 @@
             {% include 'navBar.html.twig' %}
         {% endblock %}
 
+        {% block flashmessage %}
+            {% for label, messages in app.flashes(['warning', 'danger', 'success']) %}
+                {% for message in messages %}
+                    <h3 class="text-center alert alert-{{ label }}">
+                        {{ message }}
+                    </h3>
+                {% endfor %}
+            {% endfor %}
+        {% endblock %}
+
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </div>

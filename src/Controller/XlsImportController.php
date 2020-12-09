@@ -82,8 +82,16 @@ class XlsImportController extends AbstractController
                         $entityManager->persist($etudiant);
                         $entityManager->flush();
                     }
-                }                
+                }
+                $this->addFlash(
+                    'warning',
+                    'Certaines données n\'ont pas été importé car déjà présentes'
+                );                
             }
+            $this->addFlash(
+                'success',
+                'Fin d\'importation des donnnées'
+            );
             return $this->redirectToRoute('home');
 
         }
