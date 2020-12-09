@@ -4,9 +4,12 @@
 
 {% block body %}
     <h1>SousGroupe index</h1>
-
-    <table class="table">
-        <thead>
+    {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-outline-primary" href="{{ path('sous_groupe_new') }}">Create new</a>
+        <hr>
+    {% endif %}
+    <table class="table table-sm table-hover">
+        <thead class="thead-light">
             <tr>
                 <th>Id</th>
                 <th>Nom</th>
@@ -19,8 +22,8 @@
                 <td>{{ sous_groupe.id }}</td>
                 <td>{{ sous_groupe.nom }}</td>
                 <td>
-                    <a href="{{ path('sous_groupe_show', {'id': sous_groupe.id}) }}">show</a>
-                    <a href="{{ path('sous_groupe_edit', {'id': sous_groupe.id}) }}">edit</a>
+                    <a type="button" class="btn btn-primary" href="{{ path('sous_groupe_show', {'id': sous_groupe.id}) }}">show</a>
+                    <a type="button" class="btn btn-primary" href="{{ path('sous_groupe_edit', {'id': sous_groupe.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -30,6 +33,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('sous_groupe_new') }}">Create new</a>
 {% endblock %}

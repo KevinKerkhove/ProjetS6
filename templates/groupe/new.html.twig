@@ -4,8 +4,9 @@
 
 {% block body %}
     <h1>Create new Groupe</h1>
-
+    <div class="row col-8">
+        <a type="button" class="btn btn-outline-success" href="{{ path('groupe_index') }}">Revenir à la liste</a>
+    </div>
+    <br>
     {{ include('groupe/_form.html.twig') }}
-
-    <a href="{{ path('groupe_index') }}">back to list</a>
 {% endblock %}

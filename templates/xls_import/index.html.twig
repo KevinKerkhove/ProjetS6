@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello XlsImportController!{% endblock %}
+{% block title %}Upload le fichier{% endblock %}
 
 {% block body %}
-    {{ form_start(form) }}
-        {{form_row(form.fichier) }}
-        <button class="btn">{{ button_label|default('Save') }}</button>
-    {{ form_end(form) }}
-
+<div class="container py-5">
+    <div class="row row-cols-2 justify-content-center">
+        {{ form_start(form) }}
+            {{form_row(form.fichier) }}
+            <button class="btn btn-primary">{{ button_label|default('Envoyer') }}</button>
+        {{ form_end(form) }}
+    </div>
+</div>
 {% endblock %}

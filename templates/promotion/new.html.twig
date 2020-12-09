@@ -4,8 +4,9 @@
 
 {% block body %}
     <h1>Create new Promotion</h1>
-
+    <div class="row col-8">
+        <a type="button" class="btn btn-outline-success" href="{{ path('promotion_index') }}">Revenir à la liste</a>
+    </div>
+    <br>
     {{ include('promotion/_form.html.twig') }}
-
-    <a href="{{ path('promotion_index') }}">back to list</a>
 {% endblock %}
