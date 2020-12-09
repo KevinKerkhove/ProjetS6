@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Promotion;
 use App\Form\PromotionType;
+use App\Repository\GroupeRepository;
 use App\Repository\PromotionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -51,10 +52,12 @@ class PromotionController extends AbstractController
     /**
      * @Route("/{id}", name="promotion_show", methods={"GET"})
      */
-    public function show(Promotion $promotion): Response
+    public function show(Promotion $promotion, GroupeRepository $groupeRepository): Response
     {
+        $groupes = $groupeRepository->findBy(['promotion'=> $promotion]);
         return $this->render('promotion/show.html.twig', [
             'promotion' => $promotion,
+            'groupes' => $groupes,
         ]);
     }
 

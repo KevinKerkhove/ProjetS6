@@ -29,6 +29,11 @@ class Promotion
      */
     private $groupes;
 
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $annees;
+
     public function __construct()
     {
         $this->groupes = new ArrayCollection();
@@ -77,6 +82,18 @@ class Promotion
                 $groupe->setPromotion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAnnees(): ?\DateTimeInterface
+    {
+        return $this->annees;
+    }
+
+    public function setAnnees(\DateTimeInterface $annees): self
+    {
+        $this->annees = $annees;
 
         return $this;
     }

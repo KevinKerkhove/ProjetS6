@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Promotion;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -13,6 +14,10 @@ class PromotionType extends AbstractType
     {
         $builder
             ->add('nom')
+            ->add('annees', DateType::class, [
+                'widget' => 'single_text',
+                'format' => 'YYYY',
+            ]);
         ;
     }
 

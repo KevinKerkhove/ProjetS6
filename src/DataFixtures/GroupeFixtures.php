@@ -16,52 +16,55 @@ class GroupeFixtures extends Fixture implements DependentFixtureInterface
         // $manager->persist($product);
         $promotions = $manager->getRepository(Promotion::class)->findAll();
 
-        $groupe = new Groupe();
-        $groupe->setNom("1-A");
-        $groupe->setPromotion($promotions[0]);
-        $manager->persist($groupe);
+        foreach ($promotions as $promotion) {
+            if ($promotion->getNom() === 'DUT1')
+            {
+                $groupe = new Groupe();
+                $groupe->setNom("1-A");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
 
-        $groupe = new Groupe();
-        $groupe->setNom("1-B");
-        $groupe->setPromotion($promotions[0]);
-        $manager->persist($groupe);
-        $groupe = new Groupe();
+                $groupe = new Groupe();
+                $groupe->setNom("1-B");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
+                $groupe = new Groupe();
 
-        $groupe->setNom("1-C");
-        $groupe->setPromotion($promotions[0]);
-        $manager->persist($groupe);
-        $groupe = new Groupe();
+                $groupe->setNom("1-C");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
+                $groupe = new Groupe();
 
-        $groupe->setNom("1-D");
-        $groupe->setPromotion($promotions[0]);
-        $manager->persist($groupe);
+                $groupe->setNom("1-D");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
+            }
+            elseif($promotion->getNom() === 'DUT2')
+            {
+                $groupe = new Groupe();
+                $groupe->setNom("2-A");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
 
+                $groupe = new Groupe();
+                $groupe->setNom("2-B");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
+                $groupe = new Groupe();
 
-        $groupe = new Groupe();
-        $groupe->setNom("2-A");
-        $groupe->setPromotion($promotions[1]);
-        $manager->persist($groupe);
+                $groupe->setNom("2-C");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
+            }
+            else{
+                $groupe = new Groupe();
+                $groupe->setNom("LPDIOC");
+                $groupe->setPromotion($promotion);
+                $manager->persist($groupe);
 
-        $groupe = new Groupe();
-        $groupe->setNom("2-B");
-        $groupe->setPromotion($promotions[1]);
-        $manager->persist($groupe);
-        $groupe = new Groupe();
-
-        $groupe->setNom("2-C");
-        $groupe->setPromotion($promotions[1]);
-        $manager->persist($groupe);
-
-
-
-
-        $groupe = new Groupe();
-        $groupe->setNom("LPDIOC");
-        $groupe->setPromotion($promotions[2]);
-        $manager->persist($groupe);
-
-
-        $manager->flush();
+            }
+            $manager->flush();
+        }
     }
 
 
