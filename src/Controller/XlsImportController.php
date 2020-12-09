@@ -47,22 +47,11 @@ class XlsImportController extends AbstractController
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'.'.$fichierEtudiant->guessExtension();
 
-                try {
-                    $fichierEtudiant->move(
-                        $this->getParameter('fichiers_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
                 
                 $fichier->setFilename($newFilename);
-                
-                $inputFilePath = $this->getParameter('fichiers_directory');
-                $filePathAndName = $inputFilePath.'/'.$newFilename;
 
                 $reader = new \PhpOffice\PhpSpreadsheet\Reader\Xls();
-                $spreadsheet = $reader->load($filePathAndName);
+                $spreadsheet = $reader->load($fichierEtudiant);
                 $data = $this->createDataFromSpreadSheet($spreadsheet);
 
                 foreach($data['A convoquer 6 juillet']['columnValues'] as $convoquer)
