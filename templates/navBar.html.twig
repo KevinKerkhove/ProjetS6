@@ -18,6 +18,10 @@
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('etudiant_index') }}">Liste des étudiants</a>
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('etudiant_index', {'inscrit': "inscrit"}) }}">Liste des inscrits</a>
+                </li>
             {% endif %}
             <li class="nav-item">
                     <a class="nav-link" href="{{ path('promotion_index') }}">Promotions</a>

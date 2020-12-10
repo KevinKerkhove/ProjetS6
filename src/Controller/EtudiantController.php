@@ -18,10 +18,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtudiantController extends AbstractController
 {
     /**
-     * @Route("/", name="etudiant_index", methods={"GET"})
+     * @Route("/{inscrit}", name="etudiant_index", methods={"GET"})
      */
-    public function index(EtudiantRepository $etudiantRepository): Response
+    public function index(EtudiantRepository $etudiantRepository, string $inscrit = null): Response
     {
+        if (isset($inscrit))
+        {
+            return $this->render('etudiant/inscrits.html.twig', [
+                'etudiants' => $etudiantRepository->findBy(['inscrit' => 'OUI']),
+            ]);
+        }
         return $this->render('etudiant/index.html.twig', [
             'etudiants' => $etudiantRepository->findAll(),
         ]);
