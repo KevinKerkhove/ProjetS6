@@ -93,6 +93,11 @@ class Etudiant
     private $choix;
 
     /**
+     * @ORM\Column(type="boolean")
+     */
+    private $inscrit;
+
+    /**
      * @ORM\OneToOne(targetEntity=User::class, cascade={"persist", "remove"})
      */
     private $user;
@@ -290,6 +295,18 @@ class Etudiant
     public function setUser(?User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+    
+    public function getInscrit(): ?bool 
+    {
+        return $this->inscrit;
+    }
+
+    public function setInscrit(?bool $inscrit): self
+    {
+        $this->inscrit = $inscrit;
 
         return $this;
     }

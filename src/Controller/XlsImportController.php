@@ -63,7 +63,11 @@ class XlsImportController extends AbstractController
                     $etudiant->setEmail($convoquer[12]);
                     $etudiant->setEmailResponsable1($convoquer[13]);
                     $etudiant->setEmailResponsable2($convoquer[14]);
-                
+
+                    if ($etudiant->getChoix() === "OUI")
+                        $etudiant->setInscrit(true);
+                    else $etudiant->setInscrit(false);
+
                     $emailRechercher = $this->getDoctrine()->getRepository(Etudiant::class)
                         ->findOneBy(['email' => $etudiant->getEmail()]);
                     
