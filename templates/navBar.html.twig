@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
     <a class="navbar-brand" href="{{ path('home') }}">Home</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -8,19 +8,19 @@
         <ul class="navbar-nav mr-auto">
             {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('etudiant_new') }}">Creation d'un etudiant</a>
+                    <a class="nav-link" href="{{ path('etudiant_new') }}">Créer etudiant</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('xls_import') }}">Importer Fichier d'étudiants</a>
+                    <a class="nav-link" href="{{ path('xls_import') }}">Upload Fichier</a>
                 </li>
 
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('etudiant_index') }}">Liste des étudiants</a>
+                    <a class="nav-link" href="{{ path('etudiant_index') }}">Étudiants</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('etudiant_index', {'inscrit': "inscrit"}) }}">Liste des inscrits</a>
+                    <a class="nav-link" href="{{ path('etudiant_index', {'inscrit': "inscrit"}) }}">Inscrits</a>
                 </li>
             {% endif %}
             <li class="nav-item">
