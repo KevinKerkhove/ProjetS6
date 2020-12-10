@@ -31,8 +31,14 @@
                     <a type="button" class="btn btn-primary" href="{{ path('etudiant_show', {'id': etudiant.id}) }}">show</a>
                     <a type="button" class="btn btn-primary" href="{{ path('etudiant_edit', {'id': etudiant.id}) }}">edit</a>
                     {% if is_granted('ROLE_ADMIN') %}
-                        {% if(etudiant.user == null) %}
-                            <a type="button" class="btn btn-primary" href="{{ path('user_new', {'id': etudiant.id}) }}">Créer compte Utilisateur</a>
+                        {% if(etudiant.user == null ) %}
+                            {% if etudiant.inscrit == true %}
+                                <a type="button" class="btn btn-primary" href="{{ path('user_new', {'id': etudiant.id}) }}">Créer compte Utilisateur</a>
+                            {% else %}
+                                <a type="button" class="btn btn-danger" >etudiant non-inscrit</a>
+                            {% endif %}
+                        {% else %}
+                            <a type="button" class="btn btn-success" >compte déja créer</a>
                         {% endif %}
                     {% endif %}
                 </td>
