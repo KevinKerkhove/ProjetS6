@@ -28,7 +28,7 @@ class EtudiantController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="etudiant_new", methods={"GET","POST"})
+     * @Route("/create/new", name="etudiant_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {

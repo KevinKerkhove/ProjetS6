@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Etudiant;
 use App\Entity\SousGroupeEtudiant;
 use App\Form\SousGroupeEtudiantType;
 use App\Repository\SousGroupeEtudiantRepository;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/sous/groupe/etudiant")
+ * @Route("/sous_groupe_etudiant")
  */
 class SousGroupeEtudiantController extends AbstractController
 {
@@ -26,12 +27,12 @@ class SousGroupeEtudiantController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="sous_groupe_etudiant_new", methods={"GET","POST"})
+     * @Route("/new/{id}", name="sous_groupe_etudiant_new", methods={"GET","POST"}, defaults={"id":null}, requirements={"id":"\d+"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, Etudiant $etudiant = null): Response
     {
         $sousGroupeEtudiant = new SousGroupeEtudiant();
-        $form = $this->createForm(SousGroupeEtudiantType::class, $sousGroupeEtudiant);
+        $form = $this->createForm(SousGroupeEtudiantType::class, $sousGroupeEtudiant, ['etudiant' => $etudiant]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

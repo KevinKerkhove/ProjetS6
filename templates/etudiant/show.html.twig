@@ -7,6 +7,9 @@
     <div class="row col-8">
         <a type="button" class="btn btn-outline-success col-2" href="{{ path('etudiant_index') }}">Revenir à la liste</a>
         <a type="button" class="btn btn-outline-success col-2" href="{{ path('etudiant_edit', {'id': etudiant.id}) }}">Modifier</a>
+        {% if etudiant.inscrit %}
+        <a type="button" class="btn btn-outline-success col-2" href="{{ path('sous_groupe_etudiant_new', {'id': etudiant.id}) }}">Inscrire dans un Groupe</a>
+        {% endif %}
         {{ include('etudiant/_delete_form.html.twig') }}
     </div>
     <br>
@@ -76,6 +79,14 @@
             <tr>
                 <th>Choix</th>
                 <td>{{ etudiant.choix }}</td>
+            </tr>
+            <tr>
+                <th>Inscrit</th>
+                {% if etudiant.inscrit %}
+                <td>OUI</td>
+                {% else %}
+                <td>NON</td>
+                {% endif %}
             </tr>
         </tbody>
     </table>
