@@ -31,7 +31,7 @@ class UserController extends AbstractController
     }
 
     /**
-     * @Route("/new/{id}", name="user_new", methods={"GET","POST"}, defaults={"id": null}, requirements={"id": "\d+"})
+     * @Route("/new/{id}", name="user_new", methods={"GET","POST"}, defaults={"id": null}, requirements={"id"= "\d+"})
      */
     public function new(Request $request, Etudiant $etudiant): Response
     {

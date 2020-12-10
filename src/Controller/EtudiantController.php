@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class EtudiantController extends AbstractController
 {
     /**
-     * @Route("/{inscrit}", name="etudiant_index", methods={"GET"})
+     * @Route("/{inscrit}", name="etudiant_index", methods={"GET"}, defaults={"inscrit":null})
      */
     public function index(EtudiantRepository $etudiantRepository, string $inscrit = null): Response
     {
@@ -57,7 +57,7 @@ class EtudiantController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="etudiant_show", methods={"GET"})
+     * @Route("/shows/{id}", name="etudiant_show", methods={"GET"})
      */
     public function show(Etudiant $etudiant): Response
     {
